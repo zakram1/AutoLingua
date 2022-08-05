@@ -6,20 +6,19 @@ import chalk from 'chalk';
 const program = new Command();
 
 program
+    .name('autolang')
     .description(chalk.hex('#00bcd4')('A simple CLI for translating sentences and learning fun facts about languages!'))
-    .version(chalk.green('0.0.1'))
+    .version('0.0.1', '-v, --version', 'output the current version')
     .usage(chalk.green('[options]') + ', autolang' + chalk.blue(' <command>'))
-    .option('-l, --langs', 'lists all available languages', showLangs)
     .helpOption(false)
     .addHelpCommand(false)
     .showHelpAfterError('make sure you are using the correct command!')
 
-program.command('translate')
-    .description('translate a sentence into another language')
-    .argument('<language>', 'language to translate to')
-    .argument('<sentence>', 'sentence to translate')
-    .action((sentence, language) => {
-        translateSentence(sentence, language);
+
+program.command('langs')
+    .description('show all available languages')
+    .action(() => {
+        showLangs();
     }
     );
 
@@ -31,4 +30,13 @@ program.command('funfact')
     }
     );
 
-program.parse();
+program.command('translate')
+    .description('translate a sentence into another language')
+    .argument('<sentence>', 'sentence to translate (in quotes)')
+    .argument('<language>', 'language to translate to')
+    .action((sentence, language) => {
+        translateSentence(sentence, language);
+    }
+    );
+
+program.parse(process.argv);

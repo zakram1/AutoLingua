@@ -1,38 +1,7 @@
-import translate from '@vitalets/google-translate-api';
+import translate, { languages } from '@vitalets/google-translate-api';
 import chalk from 'chalk';
 import boxen from 'boxen';
 import mongoose from 'mongoose';
-
-export const funFact = async (language) => {
-    await mongoose.connect('mongodb+srv://autolang:<password>@cluster0.bjwqkm0.mongodb.net/?retryWrites=true&w=majority', {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    });
-    const lang = await mongoose.model('language').findOne({name: language});
-    const fact = lang.facts[Math.floor(Math.random() * lang.facts.length)];
-    console.log(chalk.hex('#00bcd4')(boxen(`${fact}`, {padding: 1, borderColor: '#00bcd4'})));
-    await mongoose.disconnect();
-}
-
-export function showLangs() {
-    console.log(chalk.red.bold('\nName\t\t\t Code'));
-    for (let [lang, code] of langs) {
-        console.log(chalk.blue(`${lang}\t\t ${code}`));
-    }
-}
-
-export function translateSentence(sentence, language) {
-    if (langs.has(language) || langs.values(language)) {
-    translate(sentence, {to: language})
-    .then(res => {console.log('\n' + boxen(chalk.blue('\n' + res.text + '\n'), 
-        {padding: 0.5, borderColor: 'blue'}) + '\n');})
-    .catch(err => {                            
-         console.error(chalk.red.bold('\nMake sure you entered your sentence inside quotes and checked the list of supported languages (--langs)'));  
-     });
-    } else {
-        console.log(chalk.red.bold('\nLanguage not found!'));
-    }
-}
 
 let langs = new Map();
 langs.set('Afrikaans', 'af');
@@ -98,7 +67,6 @@ langs.set('Mongolian', 'mn');
 langs.set('Burmemse', 'my');
 langs.set('Nepali', '\t ne');
 langs.set('Norwegian', 'no');
-langs.set('Pashto', '\t ps');
 langs.set('Polish', '\t pl');
 langs.set('Portuguese', 'pt');
 langs.set('Punjabi', '\t pa');
@@ -109,11 +77,9 @@ langs.set('Scots Gaelic', 'gd');
 langs.set('Serbian', '\t sr');
 langs.set('Sesotho', '\t st');
 langs.set('Shona', '\t sn');
-langs.set('Sindhi', '\t sd');
 langs.set('Sinhala', '\t si');
 langs.set('Slovak', '\t sk');
 langs.set('Slovenian', 'sl');
-langs.set('Somali', '\t so');
 langs.set('Spanish', '\t es');
 langs.set('Sundanese', 'su');
 langs.set('Swahili', '\t sw');
@@ -131,3 +97,41 @@ langs.set('Xhosa', '\t xh');
 langs.set('Yiddish', '\t yi');
 langs.set('Yoruba', '\t yo');
 langs.set('Zulu', '\t zu');
+
+export const funFact = async (language) => {
+    await mongoose.connect('mongodb+srv://autolang:a1veSFcHK8XOvmHq@cluster0.bjwqkm0.mongodb.net/?retryWrites=true&w=majority', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    });
+    const db = mongoose.connection;
+    const Fact = mongoose.model('Fact', {
+        funfact: String
+    });
+    if (langs.has(language)) {
+        const fact = await Fact.findOne({ language: language });
+        return fact.fact;
+    }
+    else {
+        console.log('Language not found! Make sure you spelled it correctly and checked the list of supported languages (langs)');
+    }
+}
+
+export function showLangs() {
+    console.log(chalk.red.bold('\nName\t\t\t Code'));
+    for (let [lang, code] of langs) {
+        console.log(chalk.blue(`${lang}\t\t ${code}`));
+    }
+}
+
+export function translateSentence(sentence, language) {
+    if (langs.has(language) || langs.values(language)) {
+    translate(sentence, {to: language})
+    .then(res => {console.log('\n' + boxen(chalk.blue('\n' + res.text + '\n'), 
+        {padding: 0.5, borderColor: 'blue'}) + '\n');})
+    .catch(err => {                            
+         console.error(chalk.red.bold('\nMake sure you entered your sentence inside quotes and checked the list of supported languages (langs)'));  
+     });
+    } else {
+        console.log(chalk.red.bold('\nLanguage not found!'));
+    }
+}
