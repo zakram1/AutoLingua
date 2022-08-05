@@ -1,26 +1,34 @@
 #!/usr/bin/env node
 import {Command} from 'commander';
+import {showLangs, translateSentence, funFact} from './commands.js';
 import chalk from 'chalk';
-import boxen from 'boxen';
+
 const program = new Command();
 
 program
-    .name(chalk.green('autolang'))
-    .description(chalk.red('AutoLang is a tool to generate language files for your project.'))
+    .description(chalk.hex('#00bcd4')('A simple CLI for translating sentences and learning fun facts about languages!'))
     .version(chalk.green('0.0.1'))
-    .usage(chalk.green('autolang [options]'))
+    .usage(chalk.green('[options]') + ', autolang' + chalk.blue(' <command>'))
+    .option('-l, --langs', 'lists all available languages', showLangs)
+    .helpOption(false)
+    .addHelpCommand(false)
+    .showHelpAfterError('make sure you are using the correct command!')
 
 program.command('translate')
-    .description('Translate a sentence into another language')
-    .argument('<sentence>', 'sentence to translate')
+    .description('translate a sentence into another language')
     .argument('<language>', 'language to translate to')
-    .option('-l, --list', 'list all available languages')
-    .option('-s, --source <source>', 'source language')
-    .option('-t, --target <target>', 'target language')
+    .argument('<sentence>', 'sentence to translate')
     .action((sentence, language) => {
-        console.log("\n" + boxen(chalk.green("\n" + 'Translating' + sentence + 'to' + language + "\n"), {padding: 1, borderColor: 'green', dimBorder: true}) + "\n");
+        translateSentence(sentence, language);
     }
     );
-  
+
+program.command('funfact')
+    .description('display a random fun fact about a language')
+    .argument('<language>', 'language to get a fun fact about')
+    .action((language) => {
+        funFact(language);
+    }
+    );
+
 program.parse();
-    
