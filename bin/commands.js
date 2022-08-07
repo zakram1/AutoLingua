@@ -1,4 +1,4 @@
-import translate, { languages } from '@vitalets/google-translate-api';
+import translate from '@vitalets/google-translate-api';
 import chalk from 'chalk';
 import boxen from 'boxen';
 import mongoose from 'mongoose';
@@ -101,18 +101,20 @@ langs.set('Zulu', '\t zu');
 export const funFact = async (language) => {
     await mongoose.connect('mongodb+srv://autolang:a1veSFcHK8XOvmHq@cluster0.bjwqkm0.mongodb.net/?retryWrites=true&w=majority', {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        dbName: 'autolang'
     });
     const db = mongoose.connection;
-    const Fact = mongoose.model('Fact', {
-        funfact: String
-    });
-    if (langs.has(language)) {
-        const fact = await Fact.findOne({ language: language });
-        return fact.fact;
-    }
-    else {
-        console.log('Language not found! Make sure you spelled it correctly and checked the list of supported languages (langs)');
+    const checkLang = language[0].toUpperCase() + language.slice(1);
+    if (langs.has(checkLang)) {
+        const lowerLanguage = language.toLowerCase();
+        const collection = db.collection(lowerLanguage);
+        const randomDoc = await collection.aggregate([{ $sample: { size: 1 } }]).toArray();
+        console.log(chalk.green(randomDoc[0].funfact));
+        mongoose.disconnect();
+    } else {
+        console.log('Language not found! Try again.');
+        mongoose.disconnect();
     }
 }
 
