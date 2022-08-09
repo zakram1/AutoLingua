@@ -2,8 +2,7 @@
   AutoLingua
  </h1>
  <p align="center">
-   <img  src="https://img.shields.io/badge/license-MIT-red">
- <img  src="https://img.shields.io/badge/build-passing-brightgreen">
+  <img  src="https://img.shields.io/badge/build-passing-brightgreen">
    <img  src="https://img.shields.io/badge/version-0.0.1-orange">
    <img  src="https://img.shields.io/badge/node-v18.7.0-purple">
  </p>
