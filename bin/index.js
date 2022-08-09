@@ -6,10 +6,10 @@ import chalk from 'chalk';
 const program = new Command();
 
 program
-    .name('autolang')
+    .name('autolingua')
     .description(chalk.hex('#00bcd4')('A simple CLI for translating sentences and learning fun facts about languages!'))
     .version('0.0.1', '-v, --version', 'output the current version')
-    .usage(chalk.green('[options]') + ', autolang' + chalk.blue(' <command>'))
+    .usage(chalk.green('[options]') + ', autolingua' + chalk.blue(' <command>'))
     .helpOption(false)
     .addHelpCommand(false)
     .showHelpAfterError('make sure you are using the correct command!')

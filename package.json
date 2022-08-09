@@ -1,5 +1,5 @@
 {
-  "name": "autolang",
+  "name": "autolingua",
   "version": "1.0.0",
   "description": "translate phrases of your choice into languages and learn fun facts!",
   "main": "index.js",
@@ -7,11 +7,15 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "autolang": "./bin/index.js"
+    "autolingua": "./bin/index.js"
   },
   "type": "module",
-  "author": "",
+  "author": "Zubair Akram",
   "license": "ISC",
+  "keywords": [
+    "translate",
+    "language"
+  ],
   "dependencies": {
     "@vitalets/google-translate-api": "^8.0.0",
     "boxen": "^7.0.0",

@@ -1,5 +1,5 @@
 <h1 align="center">
-    AutoLang
+  AutoLingua
  </h1>
  <p align="center">
    <img  src="https://img.shields.io/badge/license-MIT-red">
@@ -14,8 +14,8 @@
 ### Usage
 
 ```
-~$ autolang
-Usage: autolang [options], autolang <command>
+~$ autolingua
+Usage: autolingua [options], autolingua <command>
 
 A simple CLI for translating sentences and learning fun facts about languages!
 
@@ -29,5 +29,5 @@ Commands:
 ```
 ### Installation
 
-- Run ```npm install -g autolang``` to install the Command Line Interface.
-- Type ```autolang``` to get started!
+- Run ```npm install -g autolingua``` to install the Command Line Interface.
+- Type ```autolingua``` to get started!
